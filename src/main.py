@@ -19,25 +19,38 @@ shortcuts = {
     "redo": "command+shift+Z" if is_mac else "ctrl+shift+Z"
 }
 
+languages = {
+    "en": {
+        "undo": "f***",  # fuck
+        "redo": "s***"  # shit
+    },
+    "ru": {
+        "undo":  "блять",
+        "redo": "п*****"  # пиздец
+    }
+}
 
-def recognize(audio, lang="en-US"):
+
+def recognize(audio, lang="en"):
     try:
         print("Capture audio")
         phrase = recognizer.recognize_google(audio, language=lang)
         print(f"Recognised phrase: {phrase}")
-        if "f***" in phrase:  # fuck
+        if languages[lang]["undo"] in phrase:
             commands.append(shortcuts["undo"])
-        elif "s***":  # shit
+        elif languages[lang]["redo"]:
             commands.append(shortcuts["redo"])
     except sr.UnknownValueError:
         print("Not recognized :(")
+    except KeyError:
+        print("Unsupported language")
 
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         language = sys.argv[1]
     else:
-        language = "en-US"
+        language = "en"
 
     recognizer.listen_in_background(sr.Microphone(), callback=lambda instance, audio: recognize(audio, language), phrase_time_limit=5)
     while True:
