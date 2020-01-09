@@ -15,8 +15,8 @@ recognizer.energy_threshold = 700
 commands = []
 
 shortcuts = {
-    "undo": "command+Z" if is_mac else "ctrl+Z",
-    "redo": "command+shift+Z" if is_mac else "ctrl+shift+Z"
+    "undo": "command+z" if is_mac else "ctrl+z",
+    "redo": "command+shift+z" if is_mac else "ctrl+shift+z"
 }
 
 languages = {
@@ -38,7 +38,7 @@ def recognize(audio, lang="en"):
         print(f"Recognised phrase: {phrase}")
         if languages[lang]["undo"] in phrase:
             commands.append(shortcuts["undo"])
-        elif languages[lang]["redo"]:
+        elif languages[lang]["redo"] in phrase:
             commands.append(shortcuts["redo"])
     except sr.UnknownValueError:
         print("Not recognized :(")
